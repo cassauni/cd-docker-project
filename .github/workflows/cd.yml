@@ -40,7 +40,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: | 
-            cd ./cd-docker-project/
+            cd ~/georgiy/cd_docker_project/
             docker compose pull
             docker compose down
             docker compose up -d
