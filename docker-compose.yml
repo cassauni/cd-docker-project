@@ -4,3 +4,4 @@ services:
     port:
       - '80:5000'
     restart: always
+    
