@@ -1,6 +1,6 @@
 services:
   web:
     image: cassauni/cd-docker-project:latest
-    port:
+    ports:
       - '80:5000'
     restart: always
