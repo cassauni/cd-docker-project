@@ -40,6 +40,8 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "k8s/"
           target: "cicd/cd_docker_project/"
 
