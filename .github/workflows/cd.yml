@@ -56,6 +56,6 @@ jobs:
           script: |
             cd cicd/cd_docker_project/k8s/
             sudo kubectl apply -f deployment.yaml
-            kubectl apply -f service.yml
-            kubectl apply -f hpa.yml
-            kubectl rollout restart deployment/flask-app
+            sudo kubectl apply -f service.yml
+            sudo kubectl apply -f hpa.yml
+            sudo kubectl rollout restart deployment/flask-app
