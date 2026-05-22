@@ -24,13 +24,25 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/cd-docker-project:latest
-            ${{ secrets.DOCKER_USERNAME }}/cd-docker-project:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/cd_docker_project:latest
+            ${{ secrets.DOCKER_USERNAME }}/cd_docker_project:${{ github.sha }}
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Copy K8s files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "k8s/"
+          target: "cicd/cd_docker_project/"
+
       - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@master
         with:
@@ -39,8 +51,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: | 
-            cd ~/georgiy/cd_docker_project/
-            docker compose pull
-            docker compose down
-            docker compose up -d
+          script: |
+            cd cicd/cd_docker_project/k8s/
+            kubectl apply -f deployment.yml
+            kubectl apply -f service.yml
+            kubectl apply -f hpa.yml
+            kubectl rollout restart deployment/flask-app
