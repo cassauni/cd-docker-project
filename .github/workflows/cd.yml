@@ -55,7 +55,7 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd cicd/cd_docker_project/k8s/
-            kubectl apply -f deployment.yml
+            sudo kubectl apply -f deployment.yaml
             kubectl apply -f service.yml
             kubectl apply -f hpa.yml
             kubectl rollout restart deployment/flask-app
