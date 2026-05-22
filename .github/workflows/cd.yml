@@ -59,3 +59,4 @@ jobs:
             sudo kubectl apply -f service.yml
             sudo kubectl apply -f hpa.yml
             sudo kubectl rollout restart deployment/flask-app
+            
